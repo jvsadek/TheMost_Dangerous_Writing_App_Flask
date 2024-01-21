@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %} Most Dangerous App {% endblock %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block content %}
+<div class="container py-5 h-100" xmlns="http://www.w3.org/1999/html">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+            <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
+                <div class="card-body py-4 px-4 px-md-5">
+                    <div class="container">
+                        <h1 style="color: #343a40">Writing session:</h1>
+
+                        <div class="col-lg-8 col-md-10 mx-auto">
+<!--                            <input-->
+<!--                              type="text"-->
+<!--                              id="message"-->
+<!--                              name="message"-->
+<!--                              placeholder="Start typing..."/>-->
+<!--                            {{ form.csrf_token }}-->
+<!--                            {{ ckeditor.load() }} {{ ckeditor.config(name='body') }} {{ ckeditor.config(id='editor')}}-->
+                            {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
+                        </div>
+
+                        <h1 style="color: #343a40">Countdown Timer</h1>
+                        <!--                        <h1 style="color: #343a40">{{ num }}</h1>-->
+                        <div id="countdown"></div>
+<!--                        <script src="./static/js/write.js" ></script>-->
+<!--                        <script>-->
+<!--                          var num = {{ num }};-->
+<!--                        </script>-->
+<!--                        <script src="./static/js/write.js" ></script>-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+const NewTargetData = new addMinutes( {{ num }} , new Date())
+
+// Update the countdown every second
+setInterval(updateCountdown, 1000);
+
+// Initial call to set the countdown immediately
+updateCountdown();
+stoptyping()
+
+function stoptyping() {
+        let timer;
+        const waitTime = 5000;
+        const messageInput = document.getElementById('body');
+        messageInput.addEventListener('keyup', event => {
+                            clearTimeout(timer);
+                              timer = setTimeout(() => {
+                                doneTyping();
+                              }, waitTime);
+                            });
+    }
+function addMinutes (minutes, date = new Date()) {
+          if (typeof minutes !== 'number') {
+            throw new Error('Invalid "minutes" argument')
+          }
+
+          if (!(date instanceof Date)) {
+            throw new Error('Invalid "date" argument')
+          }
+
+          date.setMinutes(date.getMinutes() + minutes)
+
+          return date
+        }
+
+function updateCountdown() {
+            // Set the target date (replace with your desired date and time)
+
+            const targetDate = NewTargetData;
+
+            // Get the current date and time
+            const currentDate = new Date();
+
+            // Calculate the time difference
+            const timeDifference = targetDate - currentDate;
+
+            // Calculate days, hours, minutes, and seconds
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            const time = minutes + seconds;
+
+            // Update the countdown element
+            if ( time > 1) {
+                    document.getElementById('countdown').innerHTML = `
+                    <h3 style="color: #343a40">Minutes: ${minutes}</h3>
+                    <h3 style="color: #343a40">Seconds: ${seconds}</h3>`;
+                    document.getElementById("submit").style.display = "none";
+
+
+                    } else if (time < 1) {
+                    document.getElementById("submit").style.display = "inline"
+                    document.getElementById('countdown').innerHTML = `
+                    <h3 style="color: #343a40">Minutes: ${0}</h3>
+                    <h3 style="color: #343a40">Seconds: ${0}</h3>`;
+<!--                    sleep(10000).then(() => { Redirect()});;-->
+
+                    }
+
+        }
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function doneTyping(value) {
+              alert(`You failed in the Most Dangerous App. Try Again!`)
+              Redirect();
+            }
+
+function Redirect() {
+        window.location = "http://127.0.0.1:5003/";
+       }
+
+
+    </script>
+    {% endblock %}
+
